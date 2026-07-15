@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Serums | Glow Theory Elite</title>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="luxury-style.css">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <style>
@@ -16,11 +16,54 @@ box-sizing:border-box;
 font-family:'Poppins',sans-serif;
 }
 
+html{ overflow-x:hidden; }
+
 body{
 background:#050505;
 color:#d8d8d8;
 overflow-x:hidden;
+width:100%;
 }
+
+img{ max-width:100%; }
+
+/* --- LUXURY DARK NAVBAR --- */
+.navbar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 8%; background: rgba(5, 5, 5, 0.96);
+    position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(212, 163, 115, 0.08); 
+    box-shadow: 0 4px 40px rgba(0,0,0,0.8);
+    flex-wrap: wrap;
+}
+.logo-container img { height: 55px; width: auto; transition: 0.3s; cursor: pointer; filter: drop-shadow(0 0 10px rgba(212,163,115,0.4)); }
+.logo-container img:hover { transform: scale(1.05); }
+
+.nav-links { list-style: none; display: flex; gap: 35px; align-items: center; }
+.nav-links a {
+    text-decoration: none; color: #8a8a8a; font-weight: 500; font-size: 13px;
+    letter-spacing: 1px; text-transform: uppercase; transition: 0.3s;
+}
+.nav-links a:hover { color: #d4a373; text-shadow: 0 0 15px rgba(212,163,115,0.6); }
+
+.dropdown { position: relative; }
+.dropdown-content {
+    display: none; position: absolute; top: 100%; left: 0;
+    background: #0d0d0d; min-width: 200px; border-radius: 12px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.8); border: 1px solid rgba(212, 163, 115, 0.12);
+    padding: 10px 0; z-index: 1001;
+}
+.dropdown:hover .dropdown-content { display: block; }
+.dropdown-content a { padding: 12px 20px; font-size: 13px; display: block; text-decoration: none; color: #b5b5b5; }
+.dropdown-content a:hover { background: #171213; color: #d4a373; padding-left: 25px; }
+
+.nav-actions { display: flex; align-items: center; gap: 20px; }
+
+.cart-icon-container {
+    position:relative; text-decoration:none; color:#d4a373;
+    font-size:22px; transition:0.3s; cursor:pointer;
+}
+.cart-icon-container:hover { transform: scale(1.1); color: #fff; }
 
 .cart-count{
 position:absolute;
@@ -34,6 +77,31 @@ border-radius:50%;
 font-weight:bold;
 }
 
+/* Burger menu button - hidden on desktop by default */
+.burger {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 26px;
+    height: 18px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 1100;
+}
+.burger span {
+    display: block;
+    height: 2px;
+    width: 100%;
+    background: #d4a373;
+    border-radius: 2px;
+    transition: 0.3s ease;
+}
+.burger.open .line1 { transform: translateY(8px) rotate(45deg); }
+.burger.open .line2 { opacity: 0; }
+.burger.open .line3 { transform: translateY(-8px) rotate(-45deg); }
+
 /* HERO */
 
 .texture-hero{
@@ -43,16 +111,22 @@ gap:50px;
 padding:60px 10%;
 background:#111;
 margin:20px 0;
+flex-wrap:wrap;
 }
 
+.texture-img{ flex:1; min-width:260px; text-align:center; }
 .texture-img img{
 width:100%;
 max-width:450px;
 border-radius:20px;
+height: 380px;
+object-fit: cover;
+box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
 .texture-info{
 flex:1;
+min-width:260px;
 }
 
 .texture-info span{
@@ -112,7 +186,9 @@ margin-bottom:20px;
 }
 
 .img-box img{
-width:80%;
+width:100%;
+height:100%;
+object-fit:cover;
 transition:.5s;
 }
 
@@ -168,6 +244,76 @@ padding:5px 10px;
 font-size:9px;
 font-weight:bold;
 border-radius:20px;
+z-index: 2;
+}
+
+/* ================================================= */
+/* ================ RESPONSIVE RULES ================ */
+/* ================================================= */
+
+@media (max-width: 968px) {
+    .navbar { padding: 12px 5%; }
+
+    .burger { display: flex; }
+
+    .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 75%;
+        max-width: 320px;
+        height: 100vh;
+        background: #0a0a0a;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+        padding: 100px 30px 30px;
+        transition: right 0.4s ease;
+        box-shadow: -10px 0 40px rgba(0,0,0,0.7);
+        overflow-y: auto;
+    }
+    .nav-links.active { right: 0; }
+    .nav-links li { width: 100%; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .nav-links a { font-size: 14px; }
+
+    .dropdown-content {
+        position: static;
+        display: none;
+        box-shadow: none;
+        border: none;
+        background: transparent;
+        padding-left: 10px;
+    }
+    .dropdown.active .dropdown-content { display: block; }
+    .dropdown-content a { padding: 10px 0; }
+
+    .texture-hero { padding: 50px 6%; text-align: center; }
+    .texture-info h2 { font-size: 34px; }
+
+    .grid-container { padding: 30px 6% 70px; }
+}
+
+@media (max-width: 640px) {
+    .logo-container img { height: 42px; }
+
+    .texture-hero { padding: 40px 5%; gap: 25px; }
+    .texture-info span { font-size: 10px; letter-spacing: 2px; }
+    .texture-info h2 { font-size: 26px; }
+    .texture-info p { font-size: 13px; }
+
+    .grid-container { padding: 25px 5% 60px; }
+    .product-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .card { padding: 14px; border-radius: 18px; }
+    .img-box { height: 130px; border-radius: 14px; margin-bottom: 12px; }
+    .card h3 { font-size: 13px; }
+    .price { font-size: 15px; margin-bottom: 12px; }
+    .btn { padding: 10px; font-size: 9px; letter-spacing: 0.5px; }
+    .badge { font-size: 7px; padding: 3px 8px; top: 10px; left: 10px; }
+}
+
+@media (max-width: 400px) {
+    .product-grid { grid-template-columns: 1fr; }
+    .nav-links { width: 85%; }
 }
 
 </style>
@@ -177,9 +323,10 @@ border-radius:20px;
 
     <nav class="navbar">
         <div class="logo-container" onclick="window.location.href='index.html'">
+            <!-- Elegant Gold Sparkle Luxury Logo Placeholder -->
             <img src="images/logo.png" alt="Glow Theory Logo">
         </div>
-        <ul class="nav-links">
+        <ul class="nav-links" id="nav-links">
             <li><a href="index.html">Home</a></li>
             <li class="dropdown">
                 <a href="skin care.html">Skin Care</a>
@@ -193,10 +340,16 @@ border-radius:20px;
             <li><a href="luxlips.html">Luxe Lips</a></li>
             <li><a href="contact.html">Contact</a></li>
         </ul>
-        
-        <a href="cart.html" class="cart-icon-container">
-            🛒 <span class="cart-count" id="cart-count">0</span>
-        </a>
+        <div class="nav-actions">
+            <a href="cart.html" class="cart-icon-container">
+                🛒 <span class="cart-count" id="cart-count">0</span>
+            </a>
+            <button class="burger" id="burger-menu" aria-label="Toggle Navigation Menu">
+                <span class="line1"></span>
+                <span class="line2"></span>
+                <span class="line3"></span>
+            </button>
+        </div>
     </nav>
 
 
@@ -204,7 +357,8 @@ border-radius:20px;
 <section class="texture-hero">
 
 <div class="texture-img">
-<img src="images/serum images/serum-banner.png">
+<!-- Aesthetic skincare/serum banner -->
+<img src="https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?q=80&w=800&auto=format&fit=crop" alt="Elite Serum Collection">
 </div>
 
 <div class="texture-info">
@@ -228,7 +382,8 @@ Discover concentrated skincare formulas crafted to hydrate, brighten and transfo
 <div class="card">
 <div class="badge">Best Seller</div>
 <div class="img-box">
-<img src="images/serum images/serum1.png">
+<!-- Vitamin C Glow Serum Image -->
+<img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=600&auto=format&fit=crop" alt="Glow C Serum">
 </div>
 
 <span class="tag">Vitamin C</span>
@@ -236,7 +391,7 @@ Discover concentrated skincare formulas crafted to hydrate, brighten and transfo
 <span class="price">Rs. 3,200</span>
 
 <button class="btn"
-onclick="addToBag('Glow C Serum',3200,'images/serum images/serum1.png')">
+onclick="addToBag('Glow C Serum',3200,'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=600&auto=format&fit=crop')">
 Add To Bag
 </button>
 
@@ -246,7 +401,8 @@ Add To Bag
 <div class="card">
 
 <div class="img-box">
-<img src="images/serum images/serum2.png">
+<!-- Hyaluronic Acid Serum Image -->
+<img src="https://images.unsplash.com/photo-1617897903246-719242758050?q=80&w=600&auto=format&fit=crop" alt="Hyaluronic Boost">
 </div>
 
 <span class="tag">Hydrating</span>
@@ -254,7 +410,7 @@ Add To Bag
 <span class="price">Rs. 4,100</span>
 
 <button class="btn"
-onclick="addToBag('Hyaluronic Boost',4100,'images/serum images/serum2.png')">
+onclick="addToBag('Hyaluronic Boost',4100,'https://images.unsplash.com/photo-1617897903246-719242758050?q=80&w=600&auto=format&fit=crop')">
 Add To Bag
 </button>
 
@@ -266,7 +422,8 @@ Add To Bag
 <div class="badge">New</div>
 
 <div class="img-box">
-<img src="images/serum images/serum3.png">
+<!-- Brightening Crystal Glow Image -->
+<img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=600&auto=format&fit=crop" alt="Crystal Glow Drops">
 </div>
 
 <span class="tag">Brightening</span>
@@ -274,7 +431,7 @@ Add To Bag
 <span class="price">Rs. 4,500</span>
 
 <button class="btn"
-onclick="addToBag('Crystal Glow Drops',4500,'images/serum images/serum3.png')">
+onclick="addToBag('Crystal Glow Drops',4500,'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?q=80&w=600&auto=format&fit=crop')">
 Add To Bag
 </button>
 
@@ -284,7 +441,8 @@ Add To Bag
 <div class="card">
 
 <div class="img-box">
-<img src="images/serum images/serum4.png">
+<!-- Peptide Youth Serum Image -->
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0Quujl_4_WbG3lwxZoPaBe-oY1AuqZLMPiyycqnQR4w&s=10" alt="Peptide Youth Serum">
 </div>
 
 <span class="tag">Anti Aging</span>
@@ -292,7 +450,7 @@ Add To Bag
 <span class="price">Rs. 5,200</span>
 
 <button class="btn"
-onclick="addToBag('Peptide Youth Serum',5200,'images/serum images/serum4.png')">
+onclick="addToBag('Peptide Youth Serum',5200,'https://images.unsplash.com/photo-1608248597481-496100c80836?q=80&w=600&auto=format&fit=crop')">
 Add To Bag
 </button>
 
@@ -354,7 +512,36 @@ alert(name+" Added To Bag");
 
 window.onload=updateCartCount;
 
-</script>
+// --- MOBILE NAV / BURGER MENU SCRIPT ---
+const burger = document.getElementById('burger-menu');
+const navLinks = document.getElementById('nav-links');
 
+if (burger && navLinks) {
+    burger.addEventListener('click', () => {
+        burger.classList.toggle('open');
+        navLinks.classList.toggle('active');
+    });
+
+    // Tap-to-toggle dropdown on mobile (hover doesn't work on touch)
+    document.querySelectorAll('.nav-links .dropdown > a').forEach(link => {
+        link.addEventListener('click', (e) => {
+            if (window.innerWidth <= 968) {
+                e.preventDefault();
+                link.parentElement.classList.toggle('active');
+            }
+        });
+    });
+
+    // Close menu when a normal link is tapped
+    document.querySelectorAll('.nav-links a:not(.dropdown > a)').forEach(link => {
+        link.addEventListener('click', () => {
+            burger.classList.remove('open');
+            navLinks.classList.remove('active');
+        });
+    });
+}
+
+</script>
+<script src="luxury-script.js"></script>
 </body>
 </html>
