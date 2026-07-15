@@ -7,7 +7,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        body { background-color: #fff; color: #333; }
+        html { overflow-x: hidden; }
+        body { background-color: #fff; color: #333; overflow-x: hidden; width: 100%; }
+        img { max-width: 100%; }
 
         /* --- PREMIUM NAVBAR --- */
         .navbar {
@@ -16,6 +18,7 @@
             position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(183, 110, 121, 0.15); 
             box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+            flex-wrap: wrap;
         }
         .logo-container img { height: 55px; transition: 0.3s; cursor: pointer; }
         .logo-container img:hover { transform: scale(1.05); }
@@ -26,6 +29,49 @@
             letter-spacing: 1px; text-transform: uppercase; transition: 0.3s;
         }
         .nav-links a:hover { color: #b76e79; }
+
+        .dropdown { position: relative; }
+        .dropdown-content {
+            display: none; position: absolute; top: 100%; left: 0;
+            background: #fff; min-width: 200px; border-radius: 12px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1); border: 1px solid rgba(183, 110, 121, 0.12);
+            padding: 10px 0; z-index: 1001;
+        }
+        .dropdown:hover .dropdown-content { display: block; }
+        .dropdown-content a { padding: 12px 20px; font-size: 13px; display: block; text-decoration: none; color: #555; }
+        .dropdown-content a:hover { background: #fbf3f4; color: #a65d67; padding-left: 25px; }
+
+        .nav-actions { display: flex; align-items: center; gap: 20px; }
+        .cart-icon-container { text-decoration: none; color: #333; font-size: 15px; display: flex; align-items: center; gap: 4px; }
+        .cart-count { color: #a65d67; font-weight: 700; }
+
+        /* Burger menu button - hidden on desktop by default */
+        .burger {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 26px;
+            height: 18px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 1100;
+        }
+        .navbar .burger span {
+            display: block;
+            height: 2px;
+            width: 100%;
+            background-color: #333;
+            border-radius: 2px;
+            transition: 0.3s ease;
+        }
+        .navbar .burger.toggle span {
+            background-color: #d4a373;
+        }
+        .burger.toggle .line1 { transform: translateY(8px) rotate(45deg); }
+        .burger.toggle .line2 { opacity: 0; }
+        .burger.toggle .line3 { transform: translateY(-8px) rotate(-45deg); }
 
         .cart-header {
             padding: 80px 8% 40px;
@@ -80,25 +126,105 @@
         }
         .btn-checkout:hover { background: #a65d67; }
 
+        /* ================================================= */
+        /* ================ RESPONSIVE RULES ================ */
+        /* ================================================= */
+
+        @media (max-width: 968px) {
+            .navbar { padding: 12px 5%; }
+
+            .burger { display: flex; }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 75%;
+                max-width: 320px;
+                height: 100vh;
+                background: #fff;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0;
+                padding: 100px 30px 30px;
+                transition: right 0.4s ease;
+                box-shadow: -10px 0 40px rgba(0,0,0,0.15);
+                overflow-y: auto;
+            }
+            .nav-links.active { right: 0; }
+            .nav-links li { width: 100%; padding: 14px 0; border-bottom: 1px solid #f2f2f2; }
+            .nav-links a { font-size: 14px; }
+
+            .dropdown-content {
+                position: static;
+                display: none;
+                box-shadow: none;
+                border: none;
+                background: transparent;
+                padding-left: 10px;
+            }
+            .dropdown.active .dropdown-content { display: block; }
+            .dropdown-content a { padding: 10px 0; }
+
+            .cart-header { padding: 60px 6% 30px; }
+            .cart-header h1 { font-size: 36px; }
+        }
+
         @media (max-width: 900px) { 
-            .main-wrapper { grid-template-columns: 1fr; } 
-            .cart-item { grid-template-columns: 80px 1fr; }
+            .main-wrapper { grid-template-columns: 1fr; padding: 0 6%; gap: 40px; } 
+            .cart-item { grid-template-columns: 80px 1fr; row-gap: 12px; }
             .qty-controls, .item-price { grid-column: 2; justify-self: start; }
+            .item-price { text-align: left; margin-top: -5px; }
+            .summary-card { position: static; padding: 30px; }
+        }
+
+        @media (max-width: 640px) {
+            .logo-container img { height: 42px; }
+            .cart-header h1 { font-size: 28px; }
+            .cart-item { grid-template-columns: 70px 1fr; gap: 15px; padding: 18px 0; }
+            .cart-item img { height: 90px; }
+            .item-info h3 { font-size: 15px; }
+            .qty-controls { padding: 5px 12px; gap: 10px; }
+            .summary-card { padding: 25px 20px; border-radius: 20px; }
+            .btn-checkout { padding: 16px; letter-spacing: 1px; }
+        }
+
+        @media (max-width: 400px) {
+            .nav-links { width: 85%; }
+            .cart-item { grid-template-columns: 60px 1fr; }
         }
     </style>
+    <link rel="stylesheet" href="luxury-style.css">
 </head>
 <body>
     <nav class="navbar">
         <div class="logo-container" onclick="window.location.href='index.html'">
             <img src="images/logo.png" alt="Glow Theory Logo">
         </div>
-        <ul class="nav-links">
+        <ul class="nav-links" id="nav-links">
             <li><a href="index.html">Home</a></li>
-            <li><a href="skin care.html">Skin Care</a></li>
+            <li class="dropdown">
+                <a href="skin care.html">Skin Care</a>
+                <div class="dropdown-content">
+                    <a href="skin care.html">✨ All Products</a>
+                    <a href="serums.html">🧪 Serums</a>
+                    <a href="cleanser.html">🧼 Cleansers</a>
+                    <a href="Moisturizers.html">💧 Moisturizers</a>
+                </div>
+            </li>
             <li><a href="luxlips.html">Luxe Lips</a></li>
             <li><a href="contact.html">Contact</a></li>
         </ul>
-        <div class="nav-icons" style="font-size: 20px; cursor: pointer;" onclick="window.location.href='cart.html'">🛒</div>
+        <div class="nav-actions">
+            <a href="cart.html" class="cart-icon-container">
+                🛒 <span class="cart-count" id="cart-count">0</span>
+            </a>
+            <button class="burger" id="burger-menu" aria-label="Toggle Navigation Menu">
+                <span class="line1"></span>
+                <span class="line2"></span>
+                <span class="line3"></span>
+            </button>
+        </div>
     </nav>
 
     <section class="cart-header">
@@ -197,6 +323,36 @@
         }
 
         window.onload = displayCart;
+
+        // --- MOBILE NAV / BURGER MENU SCRIPT ---
+        const burger = document.getElementById('burger-menu');
+        const navLinks = document.getElementById('nav-links');
+
+        if (burger && navLinks) {
+            burger.addEventListener('click', () => {
+                burger.classList.toggle('toggle');
+                navLinks.classList.toggle('active');
+            });
+
+            // Tap-to-toggle dropdown on mobile (hover doesn't work on touch)
+            document.querySelectorAll('.nav-links .dropdown > a').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    if (window.innerWidth <= 968) {
+                        e.preventDefault();
+                        link.parentElement.classList.toggle('active');
+                    }
+                });
+            });
+
+            // Close menu when a normal link is tapped
+            document.querySelectorAll('.nav-links a:not(.dropdown > a)').forEach(link => {
+                link.addEventListener('click', () => {
+                    burger.classList.remove('toggle');
+                    navLinks.classList.remove('active');
+                });
+            });
+        }
     </script>
+    <script src="luxury-script.js"></script>
 </body>
 </html>
